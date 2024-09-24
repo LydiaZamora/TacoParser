@@ -14,7 +14,7 @@ namespace LoggingKata
         {
             logger.LogInfo("Log initialized");
 
-            var lines = File.ReadAllLines(csvPath);
+            string [] lines = File.ReadAllLines(csvPath);
 
             if(lines.Length == 0)
             {
@@ -29,7 +29,7 @@ namespace LoggingKata
 
             var parser = new TacoParser();
 
-            var locations = lines.Select(parser.Parse).ToArray();
+            var locations = lines.Select(line => parser.Parse(line)).ToArray();
 
             ITrackable tacoBell1 = null;
             ITrackable tacoBell2 = null;
@@ -40,13 +40,17 @@ namespace LoggingKata
             for(int i = 0; i < locations.Length; i++)
             {
                 var locA = locations[i];
-                var corA = new GeoCoordinate(locA.Location.Latitude, locA.Location.Longitude);
+                var corA = new GeoCoordinate();
+                corA.Latitude = locA.Location.Latitude;
+                corA.Longitude = locA.Location.Longitude;
               
                 for( int j =0; j < locations.Length; j++)
                 {
                     var locB = locations[j];
 
-                    var corB = new GeoCoordinate(locB.Location.Longitude, locB.Location.Latitude);
+                    var corB = new GeoCoordinate();
+                    corB.Longitude = locB.Location.Longitude;
+                    corB.Latitude = locB.Location.Latitude;
 
                     if(corA.GetDistanceTo(corB) > distance)
                     {
@@ -61,7 +65,7 @@ namespace LoggingKata
 
             }
 
-            logger.LogInfo($"{tacoBell1.Name} and {tacoBell2.Name} are the furthest away from each other.");
+          logger.LogInfo($"{tacoBell1.Name} and {tacoBell2.Name} are the furthest away from each other.");
 
      
 

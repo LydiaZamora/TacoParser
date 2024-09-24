@@ -42,8 +42,7 @@ namespace LoggingKata.Test
             Assert.Equal(expected, actual);
         }
 
-        [Theory]
-        [InlineData("Taco Bell Blue Ridg...", "Taco Bell Fole...")]
+      
 
     }
 }
